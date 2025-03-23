@@ -1,0 +1,15 @@
+{
+  "name": "sneko",
+  "version": "1.0.0",
+  "description": "Sneko programming language interpreter",
+  "main": "main.js",
+  "scripts": {
+    "sneko": "node main.js",
+    "format": "npx @biomejs/biome format --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
+  }
+}
