@@ -1,4 +1,4 @@
-# sneko-lang（Interpretor）
+# sneko-lang（Interpreter）
 
 ## Usage
 
