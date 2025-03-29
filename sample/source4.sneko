@@ -1,0 +1,10 @@
+// 数値演算
+x = -42;
+print("絶対値: ", abs(x));  // 42
+print("平方根: ", sqrt(16));  // 4
+print("べき乗: ", pow(2, 3));  // 8
+
+// 文字列操作
+text = "Hello";
+print("文字数: ", length(text));  // 5
+print("文字列結合: ", concat("Hello", " ", "World"));  // Hello World

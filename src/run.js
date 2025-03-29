@@ -32,10 +32,21 @@ const operators = {
 
 // 関数の実装をマップとして定義
 const functions = {
+    // 表示
     print: (args, run) => {
         const evaluatedArgs = [run(args)].flat().join("");
         console.log(evaluatedArgs);
     },
+    // 数値演算
+    abs: (args, run) => Math.abs(run(args)),
+    sqrt: (args, run) => Math.sqrt(run(args)),
+    pow: (args, run) => {
+        const [base, exp] = [run(args)].flat();
+        return Math.pow(base, exp);
+    },
+    // 文字列操作
+    length: (args, run) => String(run(args)).length,
+    concat: (args, run) => [run(args)].flat().join(""),
 };
 
 /**
