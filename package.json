@@ -5,11 +5,13 @@
   "main": "main.js",
   "scripts": {
     "sneko": "node main.js",
+    "test": "vitest",
     "format": "npx @biomejs/biome format --write ."
   },
   "keywords": [],
   "author": "",
   "devDependencies": {
-    "@biomejs/biome": "1.9.4"
+    "@biomejs/biome": "1.9.4",
+    "vitest": "^3.1.1"
   }
 }
