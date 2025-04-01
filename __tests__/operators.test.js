@@ -26,16 +26,15 @@ describe("算術演算子テスト", () => {
             expect(run(ast)).toBe(4.7);
         });
 
-        // 未実装
-        // it('変数を含む加算ができる', () => {
-        //     global.x = 10
-        //     const ast = {
-        //         operator: '+',
-        //         left: 'x',
-        //         right: '5'
-        //     }
-        //     expect(run(ast)).toBe(15)
-        // })
+        it('変数を含む加算ができる', () => {
+            global.x = 10
+            const ast = {
+                operator: '+',
+                left: global.x,
+                right: '5'
+            }
+            expect(run(ast)).toBe(15)
+        })
     });
 
     describe("減算演算子 (-)", () => {
@@ -139,19 +138,18 @@ describe("算術演算子テスト", () => {
             expect(run(ast)).toBe(10); // (2 * 3) + 4 = 10
         });
 
-        // 未実装
-        // it('変数を含む複合的な計算ができる', () => {
-        //     global.x = 5
-        //     const ast = {
-        //         operator: '*',
-        //         left: 'x',
-        //         right: {
-        //             operator: '+',
-        //             left: '2',
-        //             right: '3'
-        //         }
-        //     }
-        //     expect(run(ast)).toBe(25) // 5 * (2 + 3) = 25
-        // })
+        it('変数を含む複合的な計算ができる', () => {
+            global.x = 5
+            const ast = {
+                operator: '*',
+                left: global.x,
+                right: {
+                    operator: '+',
+                    left: '2',
+                    right: '3'
+                }
+            }
+            expect(run(ast)).toBe(25) // 5 * (2 + 3) = 25
+        })
     });
 });
