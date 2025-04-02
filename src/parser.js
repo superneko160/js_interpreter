@@ -126,7 +126,7 @@ function parseUnary(tokens) {
  * @returns {Object} 関数呼び出しのASTノード
  */
 function parseFunctionCall(tokens) {
-    let functionNode = parseValue(tokens);
+    let functionNode = parseArrayAccess(tokens);
 
     let parentheses = "";
     while ((parentheses = accept(tokens, "("))) {
@@ -135,6 +135,46 @@ function parseFunctionCall(tokens) {
         functionNode = { left: functionNode, operator: parentheses, right: args };
     }
     return functionNode;
+}
+
+/**
+ * 配列アクセスの構文解析
+ * @param {Array} tokens - トークンのリスト
+ * @returns {Object} 配列アクセスのASTノード
+ */
+function parseArrayAccess(tokens) {
+    let arrayNode = parseArrayLiteral(tokens);
+
+    let brackets = "";
+    while ((brackets = accept(tokens, "["))) {
+        const index = parseCommaExpression(tokens);
+        brackets += expect(tokens, "]");
+        arrayNode = { left: arrayNode, operator: "[]access", right: index };
+    }
+    return arrayNode;
+}
+
+/**
+ * 配列リテラルの構文解析
+ * @param {Array} tokens - トークンのリスト
+ * @returns {Object} 配列リテラルのASTノード
+ */
+function parseArrayLiteral(tokens) {
+    if (accept(tokens, "[")) {
+        let elements = null;
+        
+        // 空配列の場合
+        if (accept(tokens, "]")) {
+            return { operator: "[]literal", left: null, right: null };
+        }
+        
+        // 要素のある配列
+        elements = parseCommaExpression(tokens);
+        expect(tokens, "]");
+        return { operator: "[]literal", left: elements, right: null };
+    }
+    
+    return parseValue(tokens);
 }
 
 /**

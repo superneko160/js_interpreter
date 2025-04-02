@@ -28,6 +28,27 @@ const operators = {
         const functionName = run(ast.left);
         return executeFunctionCall(functionName, ast.right, run);
     },
+    // 配列リテラル
+    "[]literal": (ast, run) => {
+        if (!ast.left) return []; // 空配列
+        const result = run(ast.left);
+        return Array.isArray(result) ? result.flat() : [result];
+    },
+    // 配列アクセス
+    "[]access": (ast, run) => {
+        const array = run(ast.left);
+        const index = run(ast.right);
+        
+        if (!Array.isArray(array)) {
+            error(`${array} は配列ではありません`);
+        }
+        
+        if (index < 0 || index >= array.length) {
+            error(`インデックス ${index} は配列の範囲外です（配列長: ${array.length}）`);
+        }
+        
+        return array[index];
+    }
 };
 
 // 関数の実装をマップとして定義
@@ -45,8 +66,45 @@ const functions = {
         return Math.pow(base, exp);
     },
     // 文字列操作
-    length: (args, run) => String(run(args)).length,
+    length: (args, run) => {
+        const value = run(args);
+        if (Array.isArray(value)) {
+            return value.length;
+        }
+        return String(value).length;
+    },
     concat: (args, run) => [run(args)].flat().join(""),
+    // 配列操作関数
+    push: (args, run) => {
+        // カンマで区切られた引数を処理
+        let evaledArgs = null;
+        
+        // カンマ演算子を処理
+        if (args.operator === ',') {
+            const arrayArg = run(args.left);
+            const valueArg = run(args.right);
+            
+            if (!Array.isArray(arrayArg)) {
+                error(`${arrayArg} は配列ではありません`);
+            }
+            
+            arrayArg.push(valueArg);
+            return arrayArg.length;
+        } else {
+            // 単一引数の場合
+            error("push関数は少なくとも2つの引数が必要です: 配列と追加する要素");
+        }
+    },
+    pop: (args, run) => {
+        const array = run(args);
+        if (!Array.isArray(array)) {
+            error(`${array} は配列ではありません`);
+        }
+        if (array.length === 0) {
+            error("空の配列から要素を取り出せません");
+        }
+        return array.pop();
+    }
 };
 
 /**
