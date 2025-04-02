@@ -1,0 +1,18 @@
+// 配列リテラルの作成
+list = [1, 2, 3, 4, 5];
+
+// 配列要素へのアクセス
+print(list[0]);  // 1
+
+// 配列長の取得
+print(length(list));  // 5
+
+// 配列への要素追加
+push(list, 6);
+print(list[5]);  // 6
+
+// 配列から要素を削除して返す
+last = pop(list);
+print(last);  // 6
+print(length(list));  // 5
+
